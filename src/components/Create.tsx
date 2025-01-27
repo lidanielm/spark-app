@@ -107,7 +107,7 @@ const Create = () => {
         console.log(crossword)
 
         try {
-            await axios.post('http://localhost:5050/api/crossword/create', crossword, {
+            await axios.post('/api/crossword/create', crossword, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

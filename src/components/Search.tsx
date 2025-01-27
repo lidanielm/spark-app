@@ -10,7 +10,7 @@ const Search = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.get(`http://localhost:5050/api/crossword/search?search=${search}`)
+            await axios.get(`/api/crossword/search?search=${search}`)
                 .then((res) => {
                     setResults(res.data);
                 });

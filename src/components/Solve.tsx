@@ -45,8 +45,7 @@ function Solve() {
     }
 
     const populateCrossword = async () => {
-        // http://localhost:5050/api/crossword/search?search=${search}
-        const res = await axios.get(`http://localhost:5050/api/crossword/solve?id=${_id}`)
+        const res = await axios.get(`api/crossword/solve?id=${_id}`)
             .catch((err) => {
                 console.error(err);
             })

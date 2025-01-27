@@ -8,7 +8,12 @@ import mongoose from 'mongoose';
 const PORT = process.env.PORT || 5050;
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: 'https://eloquent-naiad-ff7b62.netlify.app/',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    })
+);
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
