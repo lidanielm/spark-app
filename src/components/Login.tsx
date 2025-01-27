@@ -1,58 +1,73 @@
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { userLogin } from '../features/auth/authActions'
-import { useEffect } from 'react'
-import store from '../app/store'
+// client/src/components/Login.js
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { LoggedInContext } from '../context/LoggedInContext';
+import { useNavigate } from 'react-router-dom';
 
-type AppDispatch = typeof store.dispatch
+const Login = () => {
+    const { loggedInUser, setLoggedInUser } = useContext(LoggedInContext);
 
-const LoginScreen = () => {
-    const { loading, userInfo, error } = useSelector((state: any) => state.auth)
+    const navigate = useNavigate();
 
-    const useAppDispatch = () => useDispatch<AppDispatch>()
-    const { register, handleSubmit } = useForm()
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+    });
+    const [message, setMessage] = useState('');
 
-    const navigate = useNavigate()
+    const { username, password } = formData;
 
-    // redirect authenticated user to profile screen
-    useEffect(() => {
-        if (userInfo) {
-            navigate('/user-profile')
+    const onChange = (e: any) => setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
+
+    const onSubmit = async (e: any) => {
+        e.preventDefault();
+        try {
+            const res =
+                await axios.post('http://localhost:5050/api/auth/login',
+                    {
+                        username,
+                        password
+                    });
+            localStorage.setItem('token', res.data.token);
+            setLoggedInUser(username);
+
+            // Set success message
+            setMessage('Logged in successfully');
+        } catch (err: any) {
+            console.error(err.response.data);
+            // Set error message
+            setMessage('Failed to login - wrong credentials');
         }
-    }, [navigate, userInfo])
-
-    const submitForm = (data: any) => {
-        const dispatch = useAppDispatch()
-        dispatch(userLogin(data))
-    }
+    };
 
     return (
-        <form onSubmit={handleSubmit(submitForm)}>
-            {error}
-            <div className='form-group'>
-                <label htmlFor='email'>Email</label>
-                <input
-                    type='email'
-                    className='form-input'
-                    {...register('email')}
-                    required
-                />
+        <>
+            <div className="auth-form border-2">
+                <h2>Login</h2>
+                <form onSubmit={onSubmit}>
+                    <input type="text"
+                        placeholder="Username"
+                        name="username"
+                        value={username}
+                        onChange={onChange}
+                        required />
+                    <input type="password"
+                        placeholder="Password"
+                        name="password"
+                        value={password}
+                        onChange={onChange}
+                        required />
+                    <button type="submit">Login</button>
+                </form>
+                <p className="message">{message}</p>
             </div>
-            <div className='form-group'>
-                <label htmlFor='password'>Password</label>
-                <input
-                    type='password'
-                    className='form-input'
-                    {...register('password')}
-                    required
-                />
-            </div>
-            <button type='submit' className='button' disabled={loading}>
-                {loading ? "Loading..." : 'Login'}
-            </button>
-        </form>
-    )
-}
+            <Link to="/register">Register</Link>
+        </>
+    );
+};
 
-export default LoginScreen
+export default Login;

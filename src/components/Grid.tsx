@@ -14,9 +14,6 @@ function Grid({ isCreating }: GridProps) {
     const [currentDirection, setCurrentDirection] = useState("ArrowRight");
 
     const { clues, setClues, selectedClue, setSelectedClue } = useContext(ClueContext);
-    // const selectedClueRef = useRef();
-
-    // const cellRef = useRef({ row: 0, col: 0 });
 
     useEffect(() => {
         if (grid.length > 0) {

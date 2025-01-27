@@ -5,8 +5,7 @@ import App from './pages/App.tsx'
 import Home from './Home.tsx'
 import Create from './components/Create.tsx'
 import Solve from './components/Solve.tsx'
-import { Provider } from 'react-redux'
-import store from './app/store.tsx'
+import Search from './components/Search.tsx'
 import {
     RouterProvider,
     createBrowserRouter,
@@ -26,8 +25,12 @@ const router = createBrowserRouter([
                 element: <Create />
             },
             {
-                path: "/solve",
+                path: "/solve/:id?",
                 element: <Solve />
+            },
+            {
+                path: "/search",
+                element: <Search />
             }
         ]
     }
@@ -35,8 +38,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Provider store={store}>
-            <RouterProvider router={router} />
-        </Provider>
+        <RouterProvider router={router} />
     </StrictMode>,
 )
