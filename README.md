@@ -1,50 +1,16 @@
-# React + TypeScript + Vite
+# Project Summary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is something I've wanted to do for a while, so this was a great opportunity to work on it. I've always enjoyed solving crossword puzzles, and I thought it would be fun to create a web app that allows users to create and share crossword puzzles. Users can create a crossword puzzle by entering a list of words and their corresponding clues. The app will then generate a crossword puzzle grid with the words placed in the grid. Users can also solve crossword puzzles created by other users. The app will check the user's answers and provide feedback on whether the answers are correct or not. Users can also share their crossword puzzles with others by sharing a link to the puzzle. I had a lot of fun working on this project, and I'm happy with how it turned out.
 
-Currently, two official plugins are available:
+# Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   Allows users to create crossword puzzles by entering a list of words and their corresponding clues.
+-   Frontend is built using React and TailwindCSS, using React Context for state management.
+-   Utilized Node and Express for the backend server.
+-   Used MongoDB for the database to store crossword puzzles that users can access and solve.
 
-## Expanding the ESLint configuration
+# Time Spent
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+I spent around 8-10 hours on this project.
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# How to Run
