@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -9,20 +8,20 @@ const Navbar = () => {
             <div className="m-0 p-0">
                 <table>
                     <tr>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>C</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>R</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>U</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>C</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>I</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>V</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>E</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>R</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>B</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>A</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>L</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>I</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>Z</td>
-                        <td className='home-grid-cell hover:cursor-pointer' onClick={(e) => navigate("/")}>E</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>C</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>R</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>U</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>C</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>I</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>V</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>E</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>R</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>B</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>A</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>L</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>I</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>Z</td>
+                        <td className='home-grid-cell hover:cursor-pointer' onClick={() => navigate("/")}>E</td>
                     </tr>
                 </table></div>
             <div className='pr-4'>

@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Home from '../Home';
 import Create from '../components/Create';
 import Solve from '../components/Solve';

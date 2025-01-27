@@ -1,17 +1,8 @@
-import React, { useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LoggedInContext } from './context/LoggedInContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-
-    const { loggedInUser, setLoggedInUser } = useContext(LoggedInContext);
     const navigate = useNavigate();
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setLoggedInUser(null);
-        navigate("/");
-    }
 
     useEffect(() => {
         const cells = document.querySelectorAll('.home-grid-cell');

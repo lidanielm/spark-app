@@ -6,7 +6,7 @@ export const GridContext = createContext({
     title: "",
     author: "",
     grid: [] as string[][],
-    setGrid: (grid: string[][]) => { },
+    setGrid: (_: string[][]) => { },
     selectedCell: { row: 0, col: 0 },
-    setSelectedCell: (selectedCell: { row: number, col: number }) => { },
+    setSelectedCell: (_: { row: number, col: number }) => { },
 });

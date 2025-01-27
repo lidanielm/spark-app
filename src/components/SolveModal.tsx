@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { GridContext } from '../context/GridContext';
+import React, { useState } from 'react';
 
 interface ModalProps {
     isOpen: boolean;
@@ -9,7 +8,6 @@ interface ModalProps {
 
 const SolveModal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
     const [title, setTitle] = useState("");
-    const [size, setSize] = useState(0);
     const [grid, setGrid] = useState<string[][]>([]);
     const [clues, setClues] = useState<any[]>([]);
     const [author, setAuthor] = useState("");
@@ -22,7 +20,6 @@ const SolveModal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
             console.log(crossword);
             setTitle(crossword.title);
             setAuthor(crossword.author);
-            setSize(crossword.size);
             setGrid(Array(crossword.size).fill(null).map(() => Array(crossword.size).fill("")));
             setClues(crossword.clues);
         }

@@ -1,6 +1,6 @@
 import Grid from './Grid';
 import { GridContext } from '../context/GridContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ClueContext } from '../context/ClueContext';

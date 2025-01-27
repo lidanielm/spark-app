@@ -3,7 +3,7 @@ import ClueType from '../types/ClueType';
 
 export const ClueContext = createContext({
     clues: [] as ClueType[],
-    setClues: (clues: ClueType[]) => { },
+    setClues: (_: ClueType[]) => { },
     selectedClue: {} as any,
-    setSelectedClue: (selectedClue: ClueType) => { },
+    setSelectedClue: (_: ClueType) => { },
 });

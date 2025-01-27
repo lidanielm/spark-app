@@ -1,6 +1,6 @@
 import Grid from './Grid'
 import { GridContext } from '../context/GridContext'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ClueContext } from '../context/ClueContext'
 import ClueTable from './ClueTable'
@@ -8,12 +8,9 @@ import FallbackComponent from './FallbackComponent'
 import ClueType from '../types/ClueType'
 import CreateModal from './CreateModal'
 import axios from 'axios'
-import { LoggedInContext } from '../context/LoggedInContext'
 import NavBar from './Navbar'
 
 const Create = () => {
-    // const { loggedInUser, setLoggedInUser } = useContext(LoggedInContext)
-
     const [showModal, setShowModal] = useState(true)
     const [title, setTitle] = useState("")
     const [size, setSize] = useState(0)

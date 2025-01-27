@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { GridContext } from '../context/GridContext';
+import React, { useState } from 'react';
 
 interface ModalProps {
     isOpen: boolean;
