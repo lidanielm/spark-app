@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.js';
 import crosswordRoutes from './routes/crossword.js';
 import config from './config.js';
 import mongoose from 'mongoose';
@@ -8,15 +7,9 @@ import mongoose from 'mongoose';
 const PORT = process.env.PORT || 5050;
 const app = express();
 
-app.use(
-    cors({
-        origin: 'https://eloquent-naiad-ff7b62.netlify.app/',
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    })
-);
+app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
 app.use('/api/crossword', crosswordRoutes);
 
 // start the Express server
