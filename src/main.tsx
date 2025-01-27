@@ -6,7 +6,7 @@ import Home from './Home.tsx'
 import Create from './components/Create.tsx'
 import Solve from './components/Solve.tsx'
 import { Provider } from 'react-redux'
-import store from './store/store'
+import store from './app/store.tsx'
 import {
     RouterProvider,
     createBrowserRouter,
