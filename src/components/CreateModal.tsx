@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { GridContext } from '../context/GridContext';
+
+
+export type SymmetryType = "none" | "horizontal" | "vertical" | "rotational";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (title: string, author: string, size: number) => void;
+    onSubmit: (title: string, author: string, size: number, symmetry: SymmetryType) => void;
 }
 
-const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
-    const [title, setTitle] = useState("");
-    const [size, setSize] = useState(5);
-    const [author, setAuthor] = useState("");
+const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+    // const [title, setTitle] = useState("");
+    // const [size, setSize] = useState(5);
+    // const [author, setAuthor] = useState("");
     const [error, setError] = useState("");
+    // const [symmetry, setSymmetry] = useState<SymmetryType>("none");
+    const { title, setTitle, size, setSize, author, setAuthor, symmetry, setSymmetry } = useContext(GridContext);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         if (!validate()) return;
 
-        onSubmit(title, author, size);
         onClose();
     };
 
@@ -80,6 +85,19 @@ const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                             placeholder="Enter size"
                             className="mt-1 block w-full px-4 py-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                         />
+                    </div>
+                    <div>
+                        <label className="block font-medium text-gray-700">Symmetry:</label>
+                        <select
+                            value={symmetry}
+                            onChange={(e) => setSymmetry(e.target.value as SymmetryType)}
+                            className="mt-1 block w-full px-4 py-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                        >
+                            <option value="none">None</option>
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                            <option value="rotational">Rotational</option>
+                        </select>
                     </div>
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     <div className="flex justify-center">

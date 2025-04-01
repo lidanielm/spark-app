@@ -6,17 +6,18 @@ import { ClueContext } from '../context/ClueContext'
 import ClueTable from './ClueTable'
 import FallbackComponent from './FallbackComponent'
 import ClueType from '../types/ClueType'
-import CreateModal from './CreateModal'
+import CreateModal, { SymmetryType } from './CreateModal'
 import axios from 'axios'
 import NavBar from './Navbar'
 
 const Create = () => {
     const [showModal, setShowModal] = useState(true)
-    const [title, setTitle] = useState("")
-    const [size, setSize] = useState(0)
-    const [author, setAuthor] = useState("")
+    const [title, setTitle] = useState<string>("")
+    const [size, setSize] = useState<number>(5)
+    const [author, setAuthor] = useState<string>("")
     const [grid, setGrid] = useState<string[][]>(Array(size).fill(null).map(() => Array(size).fill(" ")))
     const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 })
+    const [symmetry, setSymmetry] = useState<SymmetryType>("none")
 
     const [selectedClue, setSelectedClue] = useState<ClueType | null>(null)
     const [clues, setClues] = useState<ClueType[]>([])
@@ -79,14 +80,17 @@ const Create = () => {
         }
     }
 
-    const handleModalSubmit = (title: string, author: string, size: number) => {
-        setTitle(title)
-        setSize(size)
-        setAuthor(author)
+    const handleModalSubmit = () => {
+        // console.log("sym")
+
+        // setTitle(title)
+        // setSize(size)
+        // setAuthor(author)
         setGrid(Array(size).fill(null).map(() => Array(size).fill(" ")))
         setSelectedCell({ row: 0, col: 0 })
         setClues([])
         setShowModal(false)
+        // setSymmetry(sym)
     }
 
     const publishCrossword = async () => {
@@ -123,10 +127,10 @@ const Create = () => {
 
     return (
         <>
-            <CreateModal isOpen={showModal} onClose={() => setShowModal(false)} onSubmit={(title: string, author: string, size: number) => handleModalSubmit(title, author, size)} />
-            <GridContext.Provider value={{ size, title, author, grid, setGrid, selectedCell, setSelectedCell }}>
+            <GridContext.Provider value={{ size, setSize, title, setTitle, author, setAuthor, grid, setGrid, selectedCell, setSelectedCell, symmetry, setSymmetry }}>
                 <ClueContext.Provider value={{ clues, setClues, selectedClue, setSelectedClue }}>
                     <ErrorBoundary FallbackComponent={FallbackComponent}>
+                        <CreateModal isOpen={showModal} onClose={() => setShowModal(false)} onSubmit={handleModalSubmit} />
                         <NavBar />
                         <div className="flex flex-col items-center space-y-4 p-4">
                             <h1 className="text-4xl font-bold text-gray-800 mt-4 mb-8">{title}</h1>

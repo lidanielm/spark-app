@@ -10,7 +10,7 @@ type GridProps = {
 };
 
 function Grid({ isCreating }: GridProps) {
-    const { size, grid, setGrid, selectedCell, setSelectedCell } = useContext(GridContext);
+    const { size, grid, setGrid, selectedCell, setSelectedCell, symmetry } = useContext(GridContext);
     const [currentDirection, setCurrentDirection] = useState("ArrowRight");
 
     const { clues, setClues, selectedClue, setSelectedClue } = useContext(ClueContext);
@@ -95,16 +95,34 @@ function Grid({ isCreating }: GridProps) {
             // const nextCellLocation = moveSelection(backwardDirection) || selectedCell;
             // setSelectedCell(nextCellLocation);
         } else if (e.key === "." && isCreating) {
+            const toggleOn = grid[selectedCell.row][selectedCell.col] !== ".";
+
             const newGrid = grid.map((r: string[], i: number) => {
-                if (i === selectedCell.row) {
-                    return r.map((c: string, j: number) => {
-                        if (j === selectedCell.col) {
-                            return grid[i][j] === "." ? " " : ".";
-                        }
-                        return c;
-                    });
-                }
-                return r;
+                return r.map((c: string, j: number) => {
+                    if (i === selectedCell.row && j === selectedCell.col) {
+                        return toggleOn ? "." : " ";
+                    }
+
+                    // Apply symmetry if not "none"
+                    switch (symmetry) {
+                        case "horizontal":
+                            if (i === size - selectedCell.row - 1 && j === selectedCell.col) {
+                                return toggleOn ? "." : " ";
+                            }
+                            break;
+                        case "vertical":
+                            if (i === selectedCell.row && j === size - selectedCell.col - 1) {
+                                return toggleOn ? "." : " ";
+                            }
+                            break;
+                        case "rotational":
+                            if (i === size - selectedCell.row - 1 && j === size - selectedCell.col - 1) {
+                                return toggleOn ? "." : " ";
+                            }
+                            break;
+                    }
+                    return c;
+                });
             });
 
             const cell = document.getElementById(`cell-${selectedCell.row}-${selectedCell.col}`);
@@ -259,30 +277,31 @@ function Grid({ isCreating }: GridProps) {
 
     return (
         <table className="grid border-1 w-max h-max" onKeyDown={(e) => handleKeyPress(e)}>
-            {grid.map((row, i) => (
-                <tr key={`row-${i}`} className="row">
-                    {row.map((_: string, j: number) => (
-                        <td key={`cell-${i}-${j}`} className="relative">
-                            <p className="absolute top-0 left-0.5 z-10 font-light text-sm select-none">
-                                {clues.find(c => c.row === i && c.col === j)?.number}
-                            </p>
-                            <input
-
-                                id={`cell-${i}-${j}`}
-                                className={classNames(i, j)}
-                                maxLength={1}
-                                value={grid[i][j]}
-                                type="text"
-                                pattern="[A-Za-z]"
-                                data-row={i.toString()}
-                                data-col={j.toString()}
-                                onClick={(e) => handleCellClick(e)}
-                            />
-                        </td>
-                    ))}
-                </tr>
-            ))
-            }
+            <tbody>
+                {grid.map((row, i) => (
+                    <tr key={`row-${i}`} className="row">
+                        {row.map((_: string, j: number) => (
+                            <td key={`cell-${i}-${j}`} className="relative select-none">
+                                <p className="absolute top-0 left-0.5 z-10 font-light text-sm select-none">
+                                    {clues.find(c => c.row === i && c.col === j)?.number}
+                                </p>
+                                <input
+                                    id={`cell-${i}-${j}`}
+                                    className={classNames(i, j)}
+                                    maxLength={1}
+                                    defaultValue={grid[i][j]}
+                                    type="text"
+                                    pattern="[A-Za-z]"
+                                    data-row={i.toString()}
+                                    data-col={j.toString()}
+                                    onClick={(e) => handleCellClick(e)}
+                                />
+                            </td>
+                        ))}
+                    </tr>
+                ))
+                }
+            </tbody>
         </ table >
     )
 }
