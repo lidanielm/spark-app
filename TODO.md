@@ -1,6 +1,6 @@
 # Grid creation
 
-[ ] symmetry
+[x] symmetry
 
 # Creation tools
 

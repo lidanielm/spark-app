@@ -22,6 +22,8 @@ const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
         if (!validate()) return;
 
+        console.log(size);
+
         onClose();
     };
 

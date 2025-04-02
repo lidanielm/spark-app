@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GridContext } from "../context/GridContext";
 import { useContext } from "react";
 import { ClueContext } from "../context/ClueContext";
+import { isAlpha } from "../util/string";
 
 type GridProps = {
     //gridSize: number;
@@ -56,7 +57,7 @@ function Grid({ isCreating }: GridProps) {
     const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         e.preventDefault();
 
-        if ((e.key >= "a" && e.key <= "z") || (e.key >= "A" && e.key <= "Z") && e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "ArrowLeft" && e.key !== "ArrowRight" && e.key !== "Meta" && e.key !== "Backspace") {
+        if (isAlpha(e.key)) {
             const newGrid = grid.map((r: string[], i: number) => {
                 if (i === selectedCell.row) {
                     return r.map((c: string, j: number) => {
@@ -138,9 +139,18 @@ function Grid({ isCreating }: GridProps) {
 
             const nextCellLocation = moveSelection(currentDirection) || selectedCell;
             setSelectedCell(nextCellLocation);
+        } else if (e.key === ",") {
+            const newGrid = grid.map((r: string[], i: number) => {
+                return r.map((c: string, j: number) => {
+                    if (i === selectedCell.row && j === selectedCell.col) {
+                        return grid[selectedCell.row][selectedCell.col] === "," ? " " : ",";
+                    }
+                    return c;
+                });
+            });
+
+            setGrid(newGrid);
         }
-
-
     }
 
     const moveSelection = (direction: string) => {
@@ -223,6 +233,7 @@ function Grid({ isCreating }: GridProps) {
                     const text = clue ? clue.text : "";
                     const answer = clue ? clue.answer : "";
                     let length = 1;
+                    console.log(grid);
                     while (i + length < size) {
                         if (grid[i + length][j] === ".") {
                             break;
@@ -282,20 +293,29 @@ function Grid({ isCreating }: GridProps) {
                     <tr key={`row-${i}`} className="row">
                         {row.map((_: string, j: number) => (
                             <td key={`cell-${i}-${j}`} className="relative select-none">
+
                                 <p className="absolute top-0 left-0.5 z-10 font-light text-sm select-none">
                                     {clues.find(c => c.row === i && c.col === j)?.number}
                                 </p>
+
+                                {
+                                    grid[i][j] === "," &&
+                                    // light circle
+                                    <div className="absolute top-0.5 left-0.5 w-11 h-11 rounded-full border-2 border-gray-400 pointer-events-none"></div>
+                                }
+
                                 <input
                                     id={`cell-${i}-${j}`}
                                     className={classNames(i, j)}
                                     maxLength={1}
-                                    defaultValue={grid[i][j]}
+                                    defaultValue={isAlpha(grid[i][j]) ? grid[i][j] : ""}
                                     type="text"
                                     pattern="[A-Za-z]"
                                     data-row={i.toString()}
                                     data-col={j.toString()}
                                     onClick={(e) => handleCellClick(e)}
                                 />
+
                             </td>
                         ))}
                     </tr>
