@@ -58,6 +58,7 @@ function Grid({ isCreating }: GridProps) {
         e.preventDefault();
 
         if (isAlpha(e.key)) {
+            console.log("key pressed", e.key);
             const newGrid = grid.map((r: string[], i: number) => {
                 if (i === selectedCell.row) {
                     return r.map((c: string, j: number) => {
@@ -233,7 +234,6 @@ function Grid({ isCreating }: GridProps) {
                     const text = clue ? clue.text : "";
                     const answer = clue ? clue.answer : "";
                     let length = 1;
-                    console.log(grid);
                     while (i + length < size) {
                         if (grid[i + length][j] === ".") {
                             break;
@@ -269,18 +269,17 @@ function Grid({ isCreating }: GridProps) {
             classes += " bg-black";
         }
         if (i === selectedCell.row && j === selectedCell.col) {
-            if (grid[i][j] !== ".") {
-                classes += " bg-gray-300";
-            }
-            classes += " inset-shadow-[0_0px_8px_rgba(52,100,255,0.5)]";
-        }
-        if (selectedClue && selectedClue.direction === "Across" && i === selectedClue.row && j >= selectedClue.col && j < selectedClue.col + selectedClue.length) {
-            if (grid[i][j] !== ".") {
-                classes += " bg-gray-200";
-            }
-        } else if (selectedClue && selectedClue.direction === "Down" && j === selectedClue.col && i >= selectedClue.row && i < selectedClue.row + selectedClue.length) {
-            if (grid[i][j] !== ".") {
-                classes += " bg-gray-200";
+            // if (grid[i][j] !== ".") {
+            //     classes += " bg-gray-300";
+            // }
+            classes += " shadow-[0_0px_8px_0px_rgba(52,100,255,0.5)]";
+        } else {
+            if (selectedClue) {
+                if (selectedClue.direction === "Across" && i === selectedClue.row && j >= selectedClue.col && j < selectedClue.col + selectedClue.length) {
+                    classes += " bg-gray-200";
+                } else if (selectedClue.direction === "Down" && j === selectedClue.col && i >= selectedClue.row && i < selectedClue.row + selectedClue.length) {
+                    classes += " bg-gray-200";
+                }
             }
         }
         return classes;
@@ -298,12 +297,6 @@ function Grid({ isCreating }: GridProps) {
                                     {clues.find(c => c.row === i && c.col === j)?.number}
                                 </p>
 
-                                {
-                                    grid[i][j] === "," &&
-                                    // light circle
-                                    <div className="absolute top-0.5 left-0.5 w-11 h-11 rounded-full border-2 border-gray-400 pointer-events-none"></div>
-                                }
-
                                 <input
                                     id={`cell-${i}-${j}`}
                                     className={classNames(i, j)}
@@ -314,7 +307,14 @@ function Grid({ isCreating }: GridProps) {
                                     data-row={i.toString()}
                                     data-col={j.toString()}
                                     onClick={(e) => handleCellClick(e)}
+                                    readOnly
                                 />
+
+                                {
+                                    grid[i][j] === "," &&
+                                    // light circle
+                                    <div className="absolute top-0.5 left-0.5 w-11 h-11 rounded-full border-2 border-gray-400 pointer-events-none"></div>
+                                }
 
                             </td>
                         ))}

@@ -7,16 +7,12 @@ export type SymmetryType = "none" | "horizontal" | "vertical" | "rotational";
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (title: string, author: string, size: number, symmetry: SymmetryType) => void;
+    onSubmit: () => void;
 }
 
-const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-    // const [title, setTitle] = useState("");
-    // const [size, setSize] = useState(5);
-    // const [author, setAuthor] = useState("");
+const CreateModal = ({ isOpen, onClose, onSubmit }: ModalProps) => {
     const [error, setError] = useState("");
-    // const [symmetry, setSymmetry] = useState<SymmetryType>("none");
-    const { title, setTitle, size, setSize, author, setAuthor, symmetry, setSymmetry } = useContext(GridContext);
+    const { size, setSize, title, setTitle, author, setAuthor, symmetry, setSymmetry } = useContext(GridContext);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -24,6 +20,7 @@ const CreateModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
         console.log(size);
 
+        onSubmit();
         onClose();
     };
 

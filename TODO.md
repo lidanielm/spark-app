@@ -10,5 +10,5 @@
 
 # Grid solving
 
-[ ] circled cells
+[x] circled cells
 [ ] shaded cells
