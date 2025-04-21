@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { ObjectId } from 'mongodb';
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -13,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     },
     crosswords: [
         {
-            title: {
+            id: {
                 type: String,
                 required: true,
             },

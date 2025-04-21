@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 *.env
+server/config.env
+server/config.js

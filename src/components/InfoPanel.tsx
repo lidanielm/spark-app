@@ -14,7 +14,6 @@ const buttonStyleActive = "bg-gray-300 text-gray-800 font-semibold py-2 px-4 bor
 
 const InfoPanel = () => {
     const [mode, setMode] = useState<InfoPanelMode>("default");
-    const [searchResults, setSearchResults] = useState<string[]>([]);
 
     const handleWordSearch = async (word: string) => {
         try {
@@ -29,7 +28,6 @@ const InfoPanel = () => {
 
             // Filter words that match the regex
             const matches = Object.keys(dictionary).filter(word => regex.test(word));
-            setSearchResults(matches);
             return matches;
         } catch (error) {
             console.error('Error searching dictionary:', error);
