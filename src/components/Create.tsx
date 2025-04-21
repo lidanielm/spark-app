@@ -2,10 +2,9 @@ import Grid from './Grid'
 import { GridContext } from '../context/GridContext'
 import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { ClueContext } from '../context/ClueContext'
-import ClueTable from './ClueTable'
+import { ClueContext, ClueType } from '../context/ClueContext'
+import InfoPanel from './InfoPanel'
 import FallbackComponent from './FallbackComponent'
-import ClueType from '../types/ClueType'
 import CreateModal, { SymmetryType } from './CreateModal'
 import axios from 'axios'
 import NavBar from './Navbar'
@@ -139,7 +138,7 @@ const Create = () => {
                                     <Grid isCreating={true} />
                                 </div>
                                 <div className="shadow-lg rounded-lg p-4 border border-gray-300">
-                                    <ClueTable isCreating={true} />
+                                    <InfoPanel />
                                 </div>
                             </div>
                             <div className="flex space-x-4">

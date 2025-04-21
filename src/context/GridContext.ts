@@ -2,7 +2,7 @@
 import { createContext } from "react";
 import { SymmetryType } from "../components/CreateModal";
 
-interface GridContextType {
+export interface GridContextType {
     size: number;
     setSize: (size: number) => void;
     title: string;
