@@ -1,32 +1,38 @@
 import express from 'express';
 import Crossword from '../models/Crossword.js';
+import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/create', async (req, res) => {
-    console.log(req.body);
+// Create or update a crossword
+router.post('/create', auth, async (req, res) => {
     try {
-        const title = req.body.title;
-        const author = req.body.author;
+        const { title, grid, clues } = req.body;
+        const userId = req.user.userId;
 
-        const crossword = await Crossword.findOne({
+        // Check if crossword with same title exists for this user
+        const existingCrossword = await Crossword.findOne({
             title: title,
-            author: author,
+            userId: userId,
         });
-        if (!crossword) {
+
+        if (!existingCrossword) {
+            // Create new crossword
             const newCrossword = new Crossword({
                 title: title,
-                grid: req.body.grid,
-                clues: req.body.clues,
-                author: author,
+                grid: grid,
+                clues: clues,
+                author: req.user.username,
+                userId: userId,
             });
             await newCrossword.save();
             res.json(newCrossword);
         } else {
-            crossword.set('grid', req.body.grid);
-            crossword.set('clues', req.body.clues);
-            await crossword.save();
-            res.json(crossword);
+            // Update existing crossword
+            existingCrossword.grid = grid;
+            existingCrossword.clues = clues;
+            await existingCrossword.save();
+            res.json(existingCrossword);
         }
     } catch (err) {
         console.error(err.message);
@@ -34,36 +40,41 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.get('/search', async (req, res) => {
+// Search crosswords
+router.get('/search', auth, async (req, res) => {
     const searchQuery = req.query.search;
-    console.log(searchQuery);
+    const userId = req.user.userId;
+
     try {
         const crosswords = await Crossword.find({
+            userId: userId,
             title: {
                 $regex: searchQuery,
                 $options: 'i',
             },
         });
-        if (crosswords.length > 0) {
-            res.json(crosswords);
-        } else {
-            res.json({ message: 'Crossword not found' });
-        }
+        res.json(crosswords);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
 
-router.get('/solve', async (req, res) => {
+// Get a specific crossword
+router.get('/solve', auth, async (req, res) => {
     try {
         const _id = req.query.id;
-        console.log(_id);
-        const crossword = await Crossword.findById(_id);
+        const userId = req.user.userId;
+
+        const crossword = await Crossword.findOne({
+            _id: _id,
+            userId: userId,
+        });
+
         if (crossword) {
             res.json(crossword);
         } else {
-            res.json({ message: 'Crossword not found' });
+            res.status(404).json({ message: 'Crossword not found' });
         }
     } catch (err) {
         console.error(err.message);

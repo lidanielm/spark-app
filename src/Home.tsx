@@ -2,16 +2,29 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { LoggedInContext } from './context/LoggedInContext';
+import { getUsernameFromToken, isTokenValid } from './utils/auth';
 
 const Home = () => {
     const navigate = useNavigate();
-    const { loggedInUser } = useContext(LoggedInContext);
+    const { loggedInUser, setLoggedInUser } = useContext(LoggedInContext);
 
     useEffect(() => {
         const cells = document.querySelectorAll('.home-grid-cell');
         cells.forEach((cell, index) => {
             (cell as HTMLElement).style.transitionDelay = `${(index % 16) * 0.06}s`;
         });
+    }, []);
+
+    useEffect(() => {
+        if (loggedInUser) {
+            return;
+        }
+        const token = localStorage.getItem('token');
+        if (token) {
+            if (isTokenValid()) {
+                setLoggedInUser(getUsernameFromToken());
+            }
+        }
     }, []);
 
     return (
@@ -156,7 +169,7 @@ const Home = () => {
                             </tr>
                         </>
                     )}
-                    {Array(4).fill(null).map(() =>
+                    {Array(loggedInUser ? 4 : 3).fill(null).map(() =>
                         <tr>
                             {Array(16).fill(null).map(() => {
                                 return <td className="home-grid-cell"></td>

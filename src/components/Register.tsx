@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoggedInContext } from '../context/LoggedInContext';
+import { setToken } from '../utils/auth';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
@@ -43,7 +44,7 @@ const Register = () => {
             }
 
             // Store the token and update logged in state
-            localStorage.setItem('token', data.token);
+            setToken(data.token);
             setLoggedInUser(username);
             navigate('/');
         } catch (err) {

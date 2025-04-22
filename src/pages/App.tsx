@@ -6,43 +6,19 @@ import Solve from '../components/Solve';
 import Search from '../components/Search';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import ProtectedRoute from '../components/ProtectedRoute';
 import { LoggedInContext } from '../context/LoggedInContext';
-import { jwtDecode } from "jwt-decode";
-
-interface DecodedToken {
-    username: string;
-    exp: number;
-    [key: string]: any;
-}
+import { isTokenValid, getUsernameFromToken } from '../utils/auth';
 
 function App() {
     const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         const decoded: any = jwtDecode(token);
-    //         setLoggedInUser(decoded.username);
-    //     }
-    // }, []);
-
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decoded = jwtDecode<DecodedToken>(token);
-
-                if (decoded.exp < Date.now() / 1000) {
-                    localStorage.removeItem('token');   
-                    setLoggedInUser(null);
-                } else {
-                    setLoggedInUser(decoded.username);
-                }
-            } catch (error) {
-                console.error('Token verification error:', error);
-                localStorage.removeItem('token');
-                setLoggedInUser(null);
-            }
+        if (isTokenValid()) {
+            const username = getUsernameFromToken();
+            setLoggedInUser(username);
+        } else {
+            setLoggedInUser(null);
         }
     }, []);
 
@@ -51,10 +27,26 @@ function App() {
             <LoggedInContext.Provider value={{ loggedInUser, setLoggedInUser }}>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/create" element={<Create />} />
-                    <Route path="/solve" element={<Solve />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/solve/:_id" element={<Solve />} />
+                    <Route path="/create" element={
+                        <ProtectedRoute>
+                            <Create />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/solve" element={
+                        <ProtectedRoute>
+                            <Solve />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/search" element={
+                        <ProtectedRoute>
+                            <Search />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/solve/:_id" element={
+                        <ProtectedRoute>
+                            <Solve />
+                        </ProtectedRoute>
+                    } />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                 </Routes>

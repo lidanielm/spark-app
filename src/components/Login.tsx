@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoggedInContext } from '../context/LoggedInContext';
+import { getUsernameFromToken, setToken } from '../utils/auth';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
@@ -9,6 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
     const { setLoggedInUser } = useContext(LoggedInContext);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,9 +33,12 @@ const Login = () => {
             }
 
             // Store the token and update logged in state
-            localStorage.setItem('token', data.token);
+            setToken(data.token);
             setLoggedInUser(username);
-            navigate('/');
+            
+            // Redirect to the page the user was trying to access, or home
+            const from = location.state?.from?.pathname || '/';
+            navigate(from, { replace: true });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Login failed');
         }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GridContext } from "../context/GridContext";
 import { useContext } from "react";
 import { ClueContext } from "../context/ClueContext";
-import { isAlpha } from "../util/string";
+import { isAlpha } from "../utils/string";
 
 type GridProps = {
     //gridSize: number;

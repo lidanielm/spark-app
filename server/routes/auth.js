@@ -14,7 +14,8 @@ router.post('/register', async (req, res) => {
     const user = new User({ username, password: hashedPassword });
     try {
         const savedUser = await User.create({ username, password: hashedPassword });
-        res.status(201).json({ message: 'User registered successfully' });
+        const token = jwt.sign({ userId: savedUser._id, username: username }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        res.status(201).json({ token });
     } catch (error) {
         res.status(500).json({ message: 'User registration failed' });
     }
@@ -30,7 +31,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user._id, username: username }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 });
 

@@ -8,6 +8,9 @@ import FallbackComponent from './FallbackComponent'
 import CreateModal, { SymmetryType } from './CreateModal'
 import axios from 'axios'
 import NavBar from './Navbar'
+import { getUserIdFromToken } from '../utils/auth'
+
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
 const Create = () => {
     const [showModal, setShowModal] = useState(true)
@@ -94,35 +97,41 @@ const Create = () => {
 
     const publishCrossword = async () => {
         if (!checkComplete()) {
-            alert("Please complete the crossword before saving")
-            return
+            alert("Please complete the crossword before saving");
+            return;
         }
 
-        updateAnswers()
+        updateAnswers();
 
-        let crossword = {
+        const crossword = {
             title: title,
-            author: author,
             grid: grid,
-            clues: clues
-        }
-
-        console.log(crossword)
+            clues: clues,
+            author: author,
+            userId: getUserIdFromToken()
+        };
 
         try {
-            await axios.post('http://localhost:5050/api/crossword/create', crossword, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            alert("Crossword saved successfully")
-        } catch (err: any) {
-            console.error(err.response.data)
-            alert("Failed to save crossword")
-        }
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("You must be logged in to save crosswords");
+                return;
+            }
 
-        localStorage.setItem(title, JSON.stringify(crossword))
-    }
+            const response = await axios.post(`${API}/crossword/create`, crossword, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.data) {
+                alert("Crossword saved successfully");
+            }
+        } catch (err: any) {
+            console.error(err.response?.data || err.message);
+            alert("Failed to save crossword. Please try again.");
+        }
+    };
 
     return (
         <>
