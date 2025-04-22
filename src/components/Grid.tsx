@@ -97,29 +97,29 @@ function Grid({ isCreating }: GridProps) {
             // const nextCellLocation = moveSelection(backwardDirection) || selectedCell;
             // setSelectedCell(nextCellLocation);
         } else if (e.key === "." && isCreating) {
-            const toggleOn = grid[selectedCell.row][selectedCell.col] !== ".";
+            const replace = grid[selectedCell.row][selectedCell.col] !== "." ? "." : " ";
 
             const newGrid = grid.map((r: string[], i: number) => {
                 return r.map((c: string, j: number) => {
                     if (i === selectedCell.row && j === selectedCell.col) {
-                        return toggleOn ? "." : " ";
+                        return replace;
                     }
 
                     // Apply symmetry if not "none"
                     switch (symmetry) {
                         case "horizontal":
                             if (i === size - selectedCell.row - 1 && j === selectedCell.col) {
-                                return toggleOn ? "." : " ";
+                                return replace;
                             }
                             break;
                         case "vertical":
                             if (i === selectedCell.row && j === size - selectedCell.col - 1) {
-                                return toggleOn ? "." : " ";
+                                return replace;
                             }
                             break;
                         case "rotational":
                             if (i === size - selectedCell.row - 1 && j === size - selectedCell.col - 1) {
-                                return toggleOn ? "." : " ";
+                                return replace;
                             }
                             break;
                     }
@@ -243,7 +243,11 @@ function Grid({ isCreating }: GridProps) {
                     newClues = [...newClues, { number, direction: "Down", text: text, length: length, answer: answer, row: i, col: j }];
                     isClueStart = true;
                 }
-                number += isClueStart ? 1 : 0;
+
+                // Increment number if new clue is started
+                if (isClueStart) {
+                    number++;
+                }
             }
         }
         setClues(newClues);
@@ -273,7 +277,7 @@ function Grid({ isCreating }: GridProps) {
             //     classes += " bg-gray-300";
             // }
             classes += " shadow-[0_0px_8px_0px_rgba(52,100,255,0.5)]";
-        } else {
+        } else if (grid[i][j] !== ".") {
             if (selectedClue) {
                 if (selectedClue.direction === "Across" && i === selectedClue.row && j >= selectedClue.col && j < selectedClue.col + selectedClue.length) {
                     classes += " bg-gray-200";

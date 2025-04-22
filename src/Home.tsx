@@ -10,9 +10,19 @@ const Home = () => {
 
     useEffect(() => {
         const cells = document.querySelectorAll('.home-grid-cell');
-        cells.forEach((cell, index) => {
-            (cell as HTMLElement).style.transitionDelay = `${(index % 16) * 0.06}s`;
-        });
+        console.log(cells);
+        let wordLength = 0;
+        for (let i = 0; i < cells.length; i++) {
+            if (cells[i].classList.contains('clickable')) {
+                (cells[i] as HTMLElement).style.transitionDelay = `${wordLength * 0.06}s`;
+                wordLength++;
+            } else {
+                if (wordLength > 0) {
+                    (cells[i] as HTMLElement).style.transitionDelay = `${wordLength * 0.06}s`;
+                }
+                wordLength = 0;
+            }
+        }
     }, []);
 
     useEffect(() => {
@@ -26,6 +36,11 @@ const Home = () => {
             }
         }
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setLoggedInUser(null);
+    }
 
     return (
         <>
@@ -63,12 +78,12 @@ const Home = () => {
                         return <td className="home-grid-cell"></td>
                     })}</tr>
                     <tr className="hover:bg-black hover:text-white">
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>C</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>R</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>E</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>A</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>T</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/create")}>E</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>C</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>R</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>E</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>A</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>T</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/create")}>E</td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
@@ -84,11 +99,11 @@ const Home = () => {
                         return <td className="home-grid-cell"></td>
                     })}</tr>
                     <tr className="hover:bg-black hover:text-white">
-                        <td className="home-grid-cell" onClick={() => navigate("/solve")}>S</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/solve")}>O</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/solve")}>L</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/solve")}>V</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/solve")}>E</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/solve")}>S</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/solve")}>O</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/solve")}>L</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/solve")}>V</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/solve")}>E</td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
@@ -105,12 +120,12 @@ const Home = () => {
                         return <td className="home-grid-cell"></td>
                     })}</tr>
                     <tr className="hover:bg-black hover:text-white">
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>S</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>E</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>A</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>R</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>C</td>
-                        <td className="home-grid-cell" onClick={() => navigate("/search")}>H</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>S</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>E</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>A</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>R</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>C</td>
+                        <td className="home-grid-cell clickable" onClick={() => navigate("/search")}>H</td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
                         <td className="home-grid-cell"></td>
@@ -128,13 +143,6 @@ const Home = () => {
                     {!loggedInUser && (
                         <>
                             <tr className="hover:bg-black hover:text-white">
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>S</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>I</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>G</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>N</td>
-                                {/* <td className="home-grid-cell" onClick={() => navigate("/register")}> </td> */}
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>U</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/register")}>P</td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
@@ -145,16 +153,17 @@ const Home = () => {
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>S</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>I</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>G</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>N</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>U</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/register")}>P</td>
                             </tr>
                             <tr>{Array(16).fill(null).map(() => {
                                 return <td className="home-grid-cell"></td>
                             })}</tr>
                             <tr className="hover:bg-black hover:text-white">
-                                <td className="home-grid-cell" onClick={() => navigate("/login")}>L</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/login")}>O</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/login")}>G</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/login")}>I</td>
-                                <td className="home-grid-cell" onClick={() => navigate("/login")}>N</td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
@@ -166,10 +175,41 @@ const Home = () => {
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
                                 <td className="home-grid-cell"></td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/login")}>L</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/login")}>O</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/login")}>G</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/login")}>I</td>
+                                <td className="home-grid-cell clickable" onClick={() => navigate("/login")}>N</td>
                             </tr>
                         </>
                     )}
-                    {Array(loggedInUser ? 4 : 3).fill(null).map(() =>
+                    <tr>{Array(16).fill(null).map(() => {
+                        return <td className="home-grid-cell"></td>
+                    })}</tr>
+                    <tr>{Array(16).fill(null).map(() => {
+                        return <td className="home-grid-cell"></td>
+                    })}</tr>
+                    {loggedInUser && (
+                        <tr className="hover:bg-black hover:text-white">
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell"></td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>L</td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>O</td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>G</td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>O</td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>U</td>
+                            <td className="home-grid-cell clickable" onClick={handleLogout}>T</td>
+                        </tr>
+                    )}
+                    {Array(loggedInUser ? 2 : 1).fill(null).map(() =>
                         <tr>
                             {Array(16).fill(null).map(() => {
                                 return <td className="home-grid-cell"></td>
