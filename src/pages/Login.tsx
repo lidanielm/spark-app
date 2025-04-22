@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoggedInContext } from '../context/LoggedInContext';
-import { getUsernameFromToken, setToken } from '../utils/auth';
+import { setToken } from '../utils/auth';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
@@ -35,7 +35,7 @@ const Login = () => {
             // Store the token and update logged in state
             setToken(data.token);
             setLoggedInUser(username);
-            
+
             // Redirect to the page the user was trying to access, or home
             const from = location.state?.from?.pathname || '/';
             navigate(from, { replace: true });

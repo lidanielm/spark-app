@@ -1,13 +1,13 @@
-import Grid from './Grid'
+import Grid from '../components/Grid'
 import { GridContext } from '../context/GridContext'
 import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ClueContext, ClueType } from '../context/ClueContext'
-import InfoPanel from './InfoPanel'
-import FallbackComponent from './FallbackComponent'
-import CreateModal, { SymmetryType } from './CreateModal'
+import InfoPanel from '../components/InfoPanel'
+import FallbackComponent from '../components/FallbackComponent'
+import CreateModal, { SymmetryType } from '../components/CreateModal'
 import axios from 'axios'
-import NavBar from './Navbar'
+import NavBar from '../components/Navbar'
 import { getUserIdFromToken } from '../utils/auth'
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5050';
@@ -82,17 +82,15 @@ const Create = () => {
         }
     }
 
-    const handleModalSubmit = () => {
-        // console.log("sym")
-
-        // setTitle(title)
-        // setSize(size)
-        // setAuthor(author)
+    const handleModalSubmit = (title: string, author: string, size: number, symmetry: SymmetryType) => {
+        setTitle(title)
+        setSize(size)
+        setAuthor(author)
         setGrid(Array(size).fill(null).map(() => Array(size).fill(" ")))
         setSelectedCell({ row: 0, col: 0 })
         setClues([])
         setShowModal(false)
-        // setSymmetry(sym)
+        setSymmetry(symmetry)
     }
 
     const publishCrossword = async () => {

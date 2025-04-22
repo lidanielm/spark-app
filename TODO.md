@@ -15,6 +15,22 @@
 
 # User login
 
-[ ] user login
-[ ] user registration
+[x] user login
+[x] user registration
 [ ] user profile / settings
+
+# Refactoring
+[ ] move page components to /pages directory
+
+# Deployment
+[ ] frontend
+- [ ] check env variables
+
+[ ] backend
+- [ ] dotenv for env variables
+
+[ ] database
+- [ ] whitelist server IP
+
+[ ] set up render
+[ ] set up automatic deploys from Github

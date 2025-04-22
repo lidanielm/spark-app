@@ -1,18 +1,19 @@
-import { useState, useContext } from 'react';
-import { GridContext } from '../context/GridContext';
-
+import { useState } from 'react';
 
 export type SymmetryType = "none" | "horizontal" | "vertical" | "rotational";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: () => void;
+    onSubmit: (title: string, author: string, size: number, symmetry: SymmetryType) => void;
 }
 
 const CreateModal = ({ isOpen, onClose, onSubmit }: ModalProps) => {
     const [error, setError] = useState("");
-    const { size, setSize, title, setTitle, author, setAuthor, symmetry, setSymmetry } = useContext(GridContext);
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [size, setSize] = useState(0);
+    const [symmetry, setSymmetry] = useState<SymmetryType>("none");
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ const CreateModal = ({ isOpen, onClose, onSubmit }: ModalProps) => {
 
         console.log(size);
 
-        onSubmit();
+        onSubmit(title, author, size, symmetry);
         onClose();
     };
 

@@ -1,16 +1,17 @@
-import Grid from './Grid';
+import Grid from '../components/Grid';
 import { GridContext } from '../context/GridContext';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ClueContext } from '../context/ClueContext';
-import ClueTable from './ClueTable';
-import FallbackComponent from './FallbackComponent';
-import ClueType from '../types/ClueType';
-import NavBar from './Navbar';
-import SolveModal from './SolveModal';
+import { ClueContext, ClueType } from '../context/ClueContext';
+import ClueTable from '../components/ClueTable';
+import FallbackComponent from '../components/FallbackComponent';
+import SolveModal from '../components/SolveModal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import NavBar from '../components/Navbar';
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:5050/api";
 
 function Solve() {
     const { _id } = useParams<{ _id: string }>();
@@ -45,7 +46,7 @@ function Solve() {
     }
 
     const populateCrossword = async () => {
-        const res = await axios.get(`http://localhost:5050/api/crossword/solve?id=${_id}`)
+        const res = await axios.get(`${API}/crossword/solve?id=${_id}`)
             .catch((err) => {
                 console.error(err);
             })
@@ -102,7 +103,20 @@ function Solve() {
     return (
         <>
             <SolveModal isOpen={showModal} onClose={() => setShowModal(false)} onSubmit={(title: string, author: string, grid: string[][], clues: any[]) => handleModalSubmit(title, author, grid, clues)} />
-            <GridContext.Provider value={{ size, title, author, grid, setGrid, selectedCell, setSelectedCell }}>
+            <GridContext.Provider value={{
+                size,
+                setSize,
+                title,
+                setTitle,
+                author,
+                setAuthor,
+                grid,
+                setGrid,
+                selectedCell,
+                setSelectedCell,
+                symmetry: "none",
+                setSymmetry: () => { }
+            }}>
                 <ClueContext.Provider value={{ clues, setClues, selectedClue, setSelectedClue }}>
                     <ErrorBoundary FallbackComponent={FallbackComponent}>
                         <NavBar />

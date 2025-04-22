@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { LoggedInContext } from './context/LoggedInContext';
-import { getUsernameFromToken, isTokenValid } from './utils/auth';
+import { LoggedInContext } from '../context/LoggedInContext';
+import { getUsernameFromToken, isTokenValid } from '../utils/auth';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -17,12 +17,10 @@ const Home = () => {
                 (cells[i] as HTMLElement).style.transitionDelay = `${wordLength * 0.06}s`;
                 wordLength++;
             } else {
-                if (wordLength > 0) {
-                    (cells[i] as HTMLElement).style.transitionDelay = `${wordLength * 0.06}s`;
-                }
                 wordLength = 0;
             }
         }
+
     }, []);
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import NavBar from "./Navbar";
+import NavBar from "../components/Navbar";
 
 const Search = () => {
     const [search, setSearch] = React.useState<string>("");

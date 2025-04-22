@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from '../Home';
-import Create from '../components/Create';
-import Solve from '../components/Solve';
-import Search from '../components/Search';
-import Register from '../components/Register';
-import Login from '../components/Login';
+import Home from './Home';
+import Create from './Create';
+import Solve from './Solve';
+import Search from './Search';
+import Register from './Register';
+import Login from './Login';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { LoggedInContext } from '../context/LoggedInContext';
 import { isTokenValid, getUsernameFromToken } from '../utils/auth';
